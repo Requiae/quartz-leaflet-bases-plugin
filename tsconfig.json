@@ -27,6 +27,7 @@
         "src/types.ts",
         "src/scripts/**/*.ts",
         "src/**/*.d.ts",
+        "types",
         "tsup.config.ts"
     ],
     "exclude": ["dist", "node_modules", "src/plugins", "src/util", "src/build.ts"]
