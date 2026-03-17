@@ -64,6 +64,7 @@ export default defineConfig({
     target: "es2022",
     splitting: false,
     outDir: "dist",
+  platform: "node",
     esbuildOptions(options) {
         options.jsx = "automatic";
         options.jsxImportSource = "preact";
