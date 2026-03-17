@@ -1,4 +1,4 @@
-import { ViewTypeRegistration } from "@quartz-community/bases-page";
+import { ViewTypeRegistration } from '@quartz-community/bases-page';
 
 interface LeafletMapViewConfig {
     mapName?: string;
@@ -31,11 +31,4 @@ declare function registerLeafletMap(userOpts?: Partial<LeafletMapPluginOptions>)
  */
 declare function init(options?: Record<string, unknown>): void;
 
-export {
-    type LeafletMapPluginOptions,
-    type LeafletMapViewConfig,
-    type MarkerData,
-    init,
-    leafletMapViewRegistration,
-    registerLeafletMap,
-};
+export { type LeafletMapPluginOptions, type LeafletMapViewConfig, type MarkerData, init, leafletMapViewRegistration, registerLeafletMap };
