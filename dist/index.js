@@ -948,7 +948,10 @@ var leafletMapRenderer = ({
       if (!coordinates) continue;
       markers.push({
         name: entry.title,
-        link: `/${entry.slug}`,
+        link: transformLink(slug, entry.slug, {
+          strategy: linkResolution,
+          allSlugs
+        }),
         mapName: getString(marker.mapName),
         coordinates,
         icon: getString(marker.icon),

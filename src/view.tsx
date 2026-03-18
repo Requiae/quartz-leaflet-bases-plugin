@@ -71,7 +71,10 @@ const leafletMapRenderer: ViewRenderer = ({
 
             markers.push({
                 name: entry.title,
-                link: `/${entry.slug}`,
+                link: transformLink(slug as FullSlug, entry.slug, {
+                    strategy: linkResolution,
+                    allSlugs: allSlugs as FullSlug[],
+                }),
                 mapName: getString(marker.mapName),
                 coordinates,
                 icon: getString(marker.icon),
