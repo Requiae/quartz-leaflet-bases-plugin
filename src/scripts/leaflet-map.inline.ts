@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-namespace */
+
 declare const L: typeof import("leaflet");
 
 type LatLng = import("leaflet").LatLng;

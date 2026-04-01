@@ -29,5 +29,13 @@
                 "caughtErrorsIgnorePattern": "^_"
             }
         ]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["types/**/*.d.ts"],
+            "rules": {
+                "@typescript-eslint/triple-slash-reference": "off"
+            }
+        }
+    ]
 }

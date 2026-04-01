@@ -1,5 +1,5 @@
-import { viewRegistry, transformLink } from "@quartz-community/bases-page";
-import { jsx } from "preact/jsx-runtime";
+import { viewRegistry, transformLink } from '@quartz-community/bases-page';
+import { jsx } from 'preact/jsx-runtime';
 
 // src/index.ts
 
@@ -887,119 +887,130 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }`;
 
 // src/scripts/leaflet-map.inline.ts
-var leaflet_map_inline_default =
-    'var D=Object.defineProperty;var P=(e,n,t)=>n in e?D(e,n,{enumerable:!0,configurable:!0,writable:!0,value:t}):e[n]=t;var r=(e,n,t)=>P(e,typeof n!="symbol"?n+"":n,t);var m={map:{default:{minZoom:"0",maxZoom:"2",zoomDelta:"0.5",zoomSnap:"0.01",height:"600",scale:"1",unit:"",enableCopyTool:"false"}}};async function M(e){for(let n of e)try{await new Promise((t,o)=>{let i=document.createElement("script");i.src=n,i.onload=()=>t(),i.onerror=()=>o(new Error(`Failed to load: ${n}`)),document.head.appendChild(i)});return}catch{}throw new Error(`All CDN sources failed for: ${e.join(", ")}`)}async function x(){typeof L>"u"&&await M(["https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js","https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"]),typeof lucide>"u"&&await M(["https://cdn.jsdelivr.net/npm/lucide@0.575.0/dist/umd/lucide.min.js","https://unpkg.com/lucide@0.575.0"])}function E(e){return!e||typeof e!="object"||Array.isArray(e)?!1:Object.keys(e).length>0&&Object.values(e).every(n=>typeof n=="string")}function I(e){let n=e.replace(/\\s/g,"").split(",").map(t=>parseInt(t));if(!A(n))throw new Error("Coordinates not properly validated");return n}function A(e){return!!e&&Array.isArray(e)&&e.length===2&&e.every(n=>typeof n=="number"&&!isNaN(n))}function Z(e){lucide.createIcons({attrs:{class:["leaflet-marker-inner-icon"]},root:e})}function k(e,n){let t=o=>o*o;return Math.sqrt(t(e.lat-n.lat)+t(e.lng-n.lng))}function O(e){return!(!E(e)||!e.name||!e.link||!e.coordinates||!e.icon||!e.colour||!e.minZoom)}function F(e){let n=e.querySelectorAll("div.leaflet-marker"),t=[];return n.forEach(o=>{O(o.dataset)&&t.push(o.dataset),o.remove()}),t}function N(e,n,t){return L.divIcon({className:"leaflet-marker-icon",html:`<a href="${e}"><svg class="leaflet-marker-pin" style="fill:${t}" viewBox="0 0 32 48"><path d="m32,19c0,12 -12,24 -16,29c-4,-5 -16,-16 -16,-29a16,19 0 0 1 32,0"/></svg><i data-lucide="${n}"></i></a>`,iconSize:[32,48],iconAnchor:[16,48],tooltipAnchor:[17,-30]})}function R(e,n){function t(u,C,T){C.getZoom()>=T-1e-5?u.addTo(C):u.remove();let b=u.getElement();b&&Z(b)}let{link:o,icon:i,colour:a,minZoom:s,coordinates:l,name:p}=e,w={icon:N(o,i,a)},g=parseFloat(s),y=L.marker(I(l),w).bindTooltip(p);t(y,n,g),n.on("zoomend",()=>t(y,n,g))}var d=class{constructor(n){r(this,"index");r(this,"map");r(this,"onSelectCallback",()=>{});r(this,"button");r(this,"options",{...m.map.default,defaultZoom:m.map.default.minZoom,src:""});r(this,"_isSelected",!1);this.index=n.index,this.map=n.map,this.onSelectCallback=n.onSelectCallback}get isSelected(){return this._isSelected}setSelected(n){this._isSelected!==n&&(this._isSelected=n,n?(this.button?.classList.add("selected"),this.onSelected()):(this.button?.classList.remove("selected"),this.onDeselected()))}onAdd(n){this.button=L.DomUtil.create("div","leaflet-control-button",n),this.button.addEventListener("click",()=>this.onSelectCallback(this.index)),L.DomEvent.disableClickPropagation(n),this.onAdded()}onRemove(){this.onRemoved(),this.button?.removeEventListener("click",()=>{}),this.button?.replaceChildren()}updateSettings(n){this.options={...this.options,...n}}onAdded(){throw new Error("Not implemented")}onRemoved(){}onSelected(){}onDeselected(){}mapClicked(n){throw new Error("Not implemented")}},h=class extends d{onAdded(){this.button&&(this.button.appendChild(lucide.createElement(lucide.MousePointer2)),this.button.ariaLabel="Pan")}mapClicked(n){}};var f=class extends d{constructor(){super(...arguments);r(this,"state",0);r(this,"pathItems",[]);r(this,"distance",0);r(this,"lineLayer");r(this,"pointLayer");r(this,"pathLine");r(this,"previewLine");r(this,"previewTooltip");r(this,"lastElement")}onAdded(){this.button&&(this.button.appendChild(lucide.createElement(lucide.Ruler)),this.button.ariaLabel="Measure"),this.lineLayer=L.layerGroup().addTo(this.map),this.pointLayer=L.layerGroup().addTo(this.map),this.pathLine=L.polyline([]).addTo(this.lineLayer),this.previewLine=L.polyline([],{dashArray:"8"}).addTo(this.lineLayer),this.previewTooltip=this.getTooltip(!0).setLatLng([0,0])}onSelected(){this.map.getContainer().style.cursor="crosshair",this.map.on("mousemove",t=>{this.renderPreview(t.latlng)})}onDeselected(){this.map.getContainer().style.cursor="",this.map.removeEventListener("mousemove"),this.resetPath(),this.state=0}mapClicked(t){if(!this.lineLayer)throw new Error("Line layer not initialised");switch(this.state){case 0:case 1:{this.state=1,this.pathItems.push(t.latlng),this.renderPath(),this.previewTooltip?.addTo(this.lineLayer),this.renderPreview(t.latlng);break}case 2:{this.state=3,this.lastElement?.bindTooltip(this.getTooltip(!0)).bringToFront(),this.previewTooltip?.remove();break}case 3:this.resetPath(),this.state=0}}renderPath(){this.cleanLastElement(),this.updatePolyline(this.pathLine,this.pathItems);let t=this.pathItems.at(-1);if(t===void 0)return;this.lastElement=this.getCircleMarker(t);let o=this.pathItems.at(-2);o!==void 0&&(this.distance+=k(t,o)*parseFloat(this.options.scale))}renderPreview(t){if(this.state!==1)return;let o=this.pathItems.at(-1);o!==void 0&&(this.updatePolyline(this.previewLine,[o,t]),this.previewTooltip=this.previewTooltip?.setLatLng(t).setContent(this.getContent(this.distance+k(o,t)*parseFloat(this.options.scale))))}resetPath(){this.pathItems=[],this.distance=0,this.cleanLastElement(),this.pointLayer?.clearLayers(),this.updatePolyline(this.pathLine,[]),this.updatePolyline(this.previewLine,[]),this.previewTooltip?.remove()}updatePolyline(t,o){t?.setLatLngs(o).redraw(),t?.getElement()?.classList.remove("leaflet-interactive")}cleanLastElement(){this.lastElement?.removeEventListener("click"),this.lastElement?.getElement()?.classList.remove("leaflet-interactive")}getTooltip(t=!1){return L.tooltip({permanent:t,offset:[15,0]}).setContent(this.getContent(this.distance))}getCircleMarker(t){if(!this.pointLayer)throw new Error("Point layer not initialised");return L.circleMarker(t,{radius:4,fill:!0,fillColor:"#3388ff",fillOpacity:1}).addTo(this.pointLayer).addEventListener("click",()=>this.state=2)}getContent(t){return`${t.toFixed(1)} ${this.options?.unit??m.map.default.unit}`}},v=class extends d{constructor(){super(...arguments);r(this,"previewTooltip")}onAdded(){this.button&&(this.button.appendChild(lucide.createElement(lucide.Pin)),this.button.ariaLabel="Copy"),this.previewTooltip=L.tooltip({permanent:!0,offset:[15,0]}).setLatLng([0,0])}onSelected(){this.map.getContainer().style.cursor="crosshair",this.map.on("mousemove",t=>{this.renderPreview(t.latlng)}),this.previewTooltip?.addTo(this.map)}onDeselected(){this.map.getContainer().style.cursor="",this.map.removeEventListener("mousemove"),this.previewTooltip?.remove()}mapClicked(t){navigator.clipboard.writeText(this.getContent(t.latlng))}renderPreview(t){this.previewTooltip?.setContent(this.getContent(t)).setLatLng(t)}getContent(t){return`${Math.round(t.lat)}, ${Math.round(t.lng)}`}},H={enableCopyTool:!1},c=null;function $(){if(c)return c;class e extends L.Control{constructor(o){super({position:"topleft"});r(this,"controls",[]);r(this,"activeIndex",0);r(this,"settings");this.settings={...H,...o}}onAdd(o){this.registerSubControl(h,o),this.registerSubControl(f,o),this.settings.enableCopyTool&&this.registerSubControl(v,o);let i=L.DomUtil.create("div","leaflet-bar leaflet-control");for(let a of this.controls)a.onAdd(i);return this.controls[this.activeIndex]?.setSelected(!0),o.on("click",a=>{for(let s of this.controls)s.isSelected&&s.mapClicked(a)}),i}onRemove(o){o?.removeEventListener("click");for(let i of this.controls)i.onRemove();this.controls=[]}updateSettings(o){for(let i of this.controls)i.updateSettings(o)}registerSubControl(o,i){let a=l=>{this.controls.at(this.activeIndex)?.setSelected(!1),this.controls.at(l)?.setSelected(!0),this.activeIndex=l},s={index:this.controls.length,map:i,onSelectCallback:a};this.controls.push(new o(s))}}return c=e,c}function j(e){return!(!E(e)||!e.src||!e.height||!e.minZoom||!e.maxZoom||!e.defaultZoom||!e.zoomDelta||!e.scale||!e.unit)}async function z(e){return new Promise((n,t)=>{let o=new Image;o.onload=()=>n(o),o.onerror=i=>t(i),o.src=e})}async function G(e,n){let t=e.dataset;if(!j(t))return;let o=await z(t.src);e.style.aspectRatio=(o.naturalWidth/o.naturalHeight).toString();let i=[[0,0],[o.naturalHeight,o.naturalWidth]],a=L.map(e,{crs:L.CRS.Simple,maxBounds:i,minZoom:parseFloat(t.minZoom),maxZoom:parseFloat(t.maxZoom),zoomSnap:.01,zoomDelta:parseFloat(t.zoomDelta)}),s=$(),l=new s({enableCopyTool:t.enableCopyTool==="true"});return l.addTo(a),l.updateSettings(t),L.imageOverlay(t.src,i).addTo(a),a.fitBounds(i),n.map(p=>R(p,a)),a.setZoom(parseFloat(t.defaultZoom)),a}function _(e){e?.clearAllEventListeners(),e?.remove()}async function S(){let e=document.querySelectorAll("div.leaflet-map");if(e.length!==0){try{await x()}catch(n){console.error("[leaflet-map] Failed to load dependencies:",n);for(let t of Array.from(e))t.textContent="Failed to load map dependencies. Check your browser\'s content blocking settings.";return}for(let n of Array.from(e)){let t=F(n),o=await G(n,t);window.addCleanup(()=>_(o))}}}document.addEventListener("nav",S);document.addEventListener("render",S);\n';
+var leaflet_map_inline_default = 'var D=Object.defineProperty;var P=(e,n,t)=>n in e?D(e,n,{enumerable:!0,configurable:!0,writable:!0,value:t}):e[n]=t;var r=(e,n,t)=>P(e,typeof n!="symbol"?n+"":n,t);var m={map:{default:{minZoom:"0",maxZoom:"2",zoomDelta:"0.5",zoomSnap:"0.01",height:"600",scale:"1",unit:"",enableCopyTool:"false"}}};async function M(e){for(let n of e)try{await new Promise((t,o)=>{let i=document.createElement("script");i.src=n,i.onload=()=>t(),i.onerror=()=>o(new Error(`Failed to load: ${n}`)),document.head.appendChild(i)});return}catch{}throw new Error(`All CDN sources failed for: ${e.join(", ")}`)}async function x(){typeof L>"u"&&await M(["https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js","https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"]),typeof lucide>"u"&&await M(["https://cdn.jsdelivr.net/npm/lucide@0.575.0/dist/umd/lucide.min.js","https://unpkg.com/lucide@0.575.0"])}function E(e){return!e||typeof e!="object"||Array.isArray(e)?!1:Object.keys(e).length>0&&Object.values(e).every(n=>typeof n=="string")}function I(e){let n=e.replace(/\\s/g,"").split(",").map(t=>parseInt(t));if(!A(n))throw new Error("Coordinates not properly validated");return n}function A(e){return!!e&&Array.isArray(e)&&e.length===2&&e.every(n=>typeof n=="number"&&!isNaN(n))}function Z(e){lucide.createIcons({attrs:{class:["leaflet-marker-inner-icon"]},root:e})}function k(e,n){let t=o=>o*o;return Math.sqrt(t(e.lat-n.lat)+t(e.lng-n.lng))}function O(e){return!(!E(e)||!e.name||!e.link||!e.coordinates||!e.icon||!e.colour||!e.minZoom)}function F(e){let n=e.querySelectorAll("div.leaflet-marker"),t=[];return n.forEach(o=>{O(o.dataset)&&t.push(o.dataset),o.remove()}),t}function N(e,n,t){return L.divIcon({className:"leaflet-marker-icon",html:`<a href="${e}"><svg class="leaflet-marker-pin" style="fill:${t}" viewBox="0 0 32 48"><path d="m32,19c0,12 -12,24 -16,29c-4,-5 -16,-16 -16,-29a16,19 0 0 1 32,0"/></svg><i data-lucide="${n}"></i></a>`,iconSize:[32,48],iconAnchor:[16,48],tooltipAnchor:[17,-30]})}function R(e,n){function t(u,C,T){C.getZoom()>=T-1e-5?u.addTo(C):u.remove();let b=u.getElement();b&&Z(b)}let{link:o,icon:i,colour:a,minZoom:s,coordinates:l,name:p}=e,w={icon:N(o,i,a)},g=parseFloat(s),y=L.marker(I(l),w).bindTooltip(p);t(y,n,g),n.on("zoomend",()=>t(y,n,g))}var d=class{constructor(n){r(this,"index");r(this,"map");r(this,"onSelectCallback",()=>{});r(this,"button");r(this,"options",{...m.map.default,defaultZoom:m.map.default.minZoom,src:""});r(this,"_isSelected",!1);this.index=n.index,this.map=n.map,this.onSelectCallback=n.onSelectCallback}get isSelected(){return this._isSelected}setSelected(n){this._isSelected!==n&&(this._isSelected=n,n?(this.button?.classList.add("selected"),this.onSelected()):(this.button?.classList.remove("selected"),this.onDeselected()))}onAdd(n){this.button=L.DomUtil.create("div","leaflet-control-button",n),this.button.addEventListener("click",()=>this.onSelectCallback(this.index)),L.DomEvent.disableClickPropagation(n),this.onAdded()}onRemove(){this.onRemoved(),this.button?.removeEventListener("click",()=>{}),this.button?.replaceChildren()}updateSettings(n){this.options={...this.options,...n}}onAdded(){throw new Error("Not implemented")}onRemoved(){}onSelected(){}onDeselected(){}mapClicked(n){throw new Error("Not implemented")}},h=class extends d{onAdded(){this.button&&(this.button.appendChild(lucide.createElement(lucide.MousePointer2)),this.button.ariaLabel="Pan")}mapClicked(n){}};var f=class extends d{constructor(){super(...arguments);r(this,"state",0);r(this,"pathItems",[]);r(this,"distance",0);r(this,"lineLayer");r(this,"pointLayer");r(this,"pathLine");r(this,"previewLine");r(this,"previewTooltip");r(this,"lastElement")}onAdded(){this.button&&(this.button.appendChild(lucide.createElement(lucide.Ruler)),this.button.ariaLabel="Measure"),this.lineLayer=L.layerGroup().addTo(this.map),this.pointLayer=L.layerGroup().addTo(this.map),this.pathLine=L.polyline([]).addTo(this.lineLayer),this.previewLine=L.polyline([],{dashArray:"8"}).addTo(this.lineLayer),this.previewTooltip=this.getTooltip(!0).setLatLng([0,0])}onSelected(){this.map.getContainer().style.cursor="crosshair",this.map.on("mousemove",t=>{this.renderPreview(t.latlng)})}onDeselected(){this.map.getContainer().style.cursor="",this.map.removeEventListener("mousemove"),this.resetPath(),this.state=0}mapClicked(t){if(!this.lineLayer)throw new Error("Line layer not initialised");switch(this.state){case 0:case 1:{this.state=1,this.pathItems.push(t.latlng),this.renderPath(),this.previewTooltip?.addTo(this.lineLayer),this.renderPreview(t.latlng);break}case 2:{this.state=3,this.lastElement?.bindTooltip(this.getTooltip(!0)).bringToFront(),this.previewTooltip?.remove();break}case 3:this.resetPath(),this.state=0}}renderPath(){this.cleanLastElement(),this.updatePolyline(this.pathLine,this.pathItems);let t=this.pathItems.at(-1);if(t===void 0)return;this.lastElement=this.getCircleMarker(t);let o=this.pathItems.at(-2);o!==void 0&&(this.distance+=k(t,o)*parseFloat(this.options.scale))}renderPreview(t){if(this.state!==1)return;let o=this.pathItems.at(-1);o!==void 0&&(this.updatePolyline(this.previewLine,[o,t]),this.previewTooltip=this.previewTooltip?.setLatLng(t).setContent(this.getContent(this.distance+k(o,t)*parseFloat(this.options.scale))))}resetPath(){this.pathItems=[],this.distance=0,this.cleanLastElement(),this.pointLayer?.clearLayers(),this.updatePolyline(this.pathLine,[]),this.updatePolyline(this.previewLine,[]),this.previewTooltip?.remove()}updatePolyline(t,o){t?.setLatLngs(o).redraw(),t?.getElement()?.classList.remove("leaflet-interactive")}cleanLastElement(){this.lastElement?.removeEventListener("click"),this.lastElement?.getElement()?.classList.remove("leaflet-interactive")}getTooltip(t=!1){return L.tooltip({permanent:t,offset:[15,0]}).setContent(this.getContent(this.distance))}getCircleMarker(t){if(!this.pointLayer)throw new Error("Point layer not initialised");return L.circleMarker(t,{radius:4,fill:!0,fillColor:"#3388ff",fillOpacity:1}).addTo(this.pointLayer).addEventListener("click",()=>this.state=2)}getContent(t){return`${t.toFixed(1)} ${this.options?.unit??m.map.default.unit}`}},v=class extends d{constructor(){super(...arguments);r(this,"previewTooltip")}onAdded(){this.button&&(this.button.appendChild(lucide.createElement(lucide.Pin)),this.button.ariaLabel="Copy"),this.previewTooltip=L.tooltip({permanent:!0,offset:[15,0]}).setLatLng([0,0])}onSelected(){this.map.getContainer().style.cursor="crosshair",this.map.on("mousemove",t=>{this.renderPreview(t.latlng)}),this.previewTooltip?.addTo(this.map)}onDeselected(){this.map.getContainer().style.cursor="",this.map.removeEventListener("mousemove"),this.previewTooltip?.remove()}mapClicked(t){navigator.clipboard.writeText(this.getContent(t.latlng))}renderPreview(t){this.previewTooltip?.setContent(this.getContent(t)).setLatLng(t)}getContent(t){return`${Math.round(t.lat)}, ${Math.round(t.lng)}`}},H={enableCopyTool:!1},c=null;function $(){if(c)return c;class e extends L.Control{constructor(o){super({position:"topleft"});r(this,"controls",[]);r(this,"activeIndex",0);r(this,"settings");this.settings={...H,...o}}onAdd(o){this.registerSubControl(h,o),this.registerSubControl(f,o),this.settings.enableCopyTool&&this.registerSubControl(v,o);let i=L.DomUtil.create("div","leaflet-bar leaflet-control");for(let a of this.controls)a.onAdd(i);return this.controls[this.activeIndex]?.setSelected(!0),o.on("click",a=>{for(let s of this.controls)s.isSelected&&s.mapClicked(a)}),i}onRemove(o){o?.removeEventListener("click");for(let i of this.controls)i.onRemove();this.controls=[]}updateSettings(o){for(let i of this.controls)i.updateSettings(o)}registerSubControl(o,i){let a=l=>{this.controls.at(this.activeIndex)?.setSelected(!1),this.controls.at(l)?.setSelected(!0),this.activeIndex=l},s={index:this.controls.length,map:i,onSelectCallback:a};this.controls.push(new o(s))}}return c=e,c}function j(e){return!(!E(e)||!e.src||!e.height||!e.minZoom||!e.maxZoom||!e.defaultZoom||!e.zoomDelta||!e.scale||!e.unit)}async function z(e){return new Promise((n,t)=>{let o=new Image;o.onload=()=>n(o),o.onerror=i=>t(i),o.src=e})}async function G(e,n){let t=e.dataset;if(!j(t))return;let o=await z(t.src);e.style.aspectRatio=(o.naturalWidth/o.naturalHeight).toString();let i=[[0,0],[o.naturalHeight,o.naturalWidth]],a=L.map(e,{crs:L.CRS.Simple,maxBounds:i,minZoom:parseFloat(t.minZoom),maxZoom:parseFloat(t.maxZoom),zoomSnap:.01,zoomDelta:parseFloat(t.zoomDelta)}),s=$(),l=new s({enableCopyTool:t.enableCopyTool==="true"});return l.addTo(a),l.updateSettings(t),L.imageOverlay(t.src,i).addTo(a),a.fitBounds(i),n.map(p=>R(p,a)),a.setZoom(parseFloat(t.defaultZoom)),a}function _(e){e?.clearAllEventListeners(),e?.remove()}async function S(){let e=document.querySelectorAll("div.leaflet-map");if(e.length!==0){try{await x()}catch(n){console.error("[leaflet-map] Failed to load dependencies:",n);for(let t of Array.from(e))t.textContent="Failed to load map dependencies. Check your browser\'s content blocking settings.";return}for(let n of Array.from(e)){let t=F(n),o=await G(n,t);window.addCleanup(()=>_(o))}}}document.addEventListener("nav",S);document.addEventListener("render",S);\n';
 
 // src/types.ts
 var defaultOptions = {
-    enableCopyTool: false,
+  enableCopyTool: false
 };
 var DEFAULTS = {
-    minZoom: 0,
-    maxZoom: 2,
-    zoomDelta: 0.5,
-    height: 600,
-    scale: 1,
-    unit: "",
-    markerColour: "#21409a",
-    markerIcon: "circle-small",
+  minZoom: 0,
+  maxZoom: 2,
+  zoomDelta: 0.5,
+  height: 600,
+  scale: 1,
+  unit: "",
+  markerColour: "#21409a",
+  markerIcon: "circle-small"
 };
 var isRecord = (value) => typeof value === "object" && value !== null;
 var toNumber = (value) => {
-    if (typeof value === "number" && Number.isFinite(value)) return value;
-    if (typeof value === "string") {
-        const parsed = Number(value);
-        return Number.isFinite(parsed) ? parsed : void 0;
-    }
-    return void 0;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : void 0;
+  }
+  return void 0;
 };
-var getString = (value) => (typeof value === "string" && value.trim().length > 0 ? value : void 0);
-var leafletMapRenderer = ({ entries, view, slug, allSlugs, linkResolution, options }) => {
-    const pluginOptions = options ?? {};
-    const mapName = getString(view.mapName);
-    const rawImage = getString(view.image);
-    if (!rawImage) {
-        return /* @__PURE__ */ jsx("div", { children: "Leaflet map view requires an image." });
-    }
-    const imageSource = transformLink(slug, rawImage, {
-        strategy: linkResolution,
-        allSlugs,
-    });
-    const minZoom = toNumber(view.minZoom) ?? DEFAULTS.minZoom;
-    const maxZoom = Math.max(toNumber(view.maxZoom) ?? DEFAULTS.maxZoom, minZoom);
-    const defaultZoom = Math.min(Math.max(toNumber(view.defaultZoom) ?? minZoom, minZoom), maxZoom);
-    const zoomDelta = toNumber(view.zoomDelta) ?? DEFAULTS.zoomDelta;
-    const height = toNumber(view.height) ?? DEFAULTS.height;
-    const scale = toNumber(view.scale) ?? DEFAULTS.scale;
-    const unit = getString(view.unit) ?? DEFAULTS.unit;
-    const markers = [];
-    for (const entry of entries) {
-        const markerValue = entry.properties.marker;
-        if (!Array.isArray(markerValue)) continue;
-        for (const marker of markerValue) {
-            if (!isRecord(marker)) continue;
-            const coordinates = getString(marker.coordinates);
-            if (!coordinates) continue;
-            markers.push({
-                name: entry.title,
-                link: `/${entry.slug}`,
-                mapName: getString(marker.mapName),
-                coordinates,
-                icon: getString(marker.icon),
-                colour: getString(marker.colour),
-                minZoom: toNumber(marker.minZoom),
-            });
-        }
-    }
-    const filteredMarkers = markers.filter((marker) => {
-        if (mapName) return !marker.mapName || marker.mapName === mapName;
-        return marker.mapName === void 0;
-    });
-    return /* @__PURE__ */ jsx("div", {
-        children: /* @__PURE__ */ jsx("div", {
-            class: "leaflet-map",
-            "data-src": imageSource,
-            "data-height": height,
-            "data-min-zoom": minZoom,
-            "data-max-zoom": maxZoom,
-            "data-default-zoom": defaultZoom,
-            "data-zoom-delta": zoomDelta,
-            "data-scale": scale,
-            "data-unit": unit,
-            "data-enable-copy-tool": pluginOptions.enableCopyTool ?? false,
-            children: filteredMarkers.map((marker) =>
-                /* @__PURE__ */ jsx("div", {
-                    class: "leaflet-marker",
-                    "data-name": marker.name,
-                    "data-link": marker.link,
-                    "data-coordinates": marker.coordinates,
-                    "data-icon": (marker.icon ?? DEFAULTS.markerIcon).replace("lucide-", ""),
-                    "data-colour": marker.colour ?? DEFAULTS.markerColour,
-                    "data-min-zoom": marker.minZoom ?? minZoom,
-                }),
-            ),
+var getString = (value) => typeof value === "string" && value.trim().length > 0 ? value : void 0;
+var leafletMapRenderer = ({
+  entries,
+  view,
+  slug,
+  allSlugs,
+  linkResolution,
+  options
+}) => {
+  const pluginOptions = options ?? {};
+  const mapName = getString(view.mapName);
+  const rawImage = getString(view.image);
+  if (!rawImage) {
+    return /* @__PURE__ */ jsx("div", { children: "Leaflet map view requires an image." });
+  }
+  const imageSource = transformLink(slug, rawImage, {
+    strategy: linkResolution,
+    allSlugs
+  });
+  const minZoom = toNumber(view.minZoom) ?? DEFAULTS.minZoom;
+  const maxZoom = Math.max(toNumber(view.maxZoom) ?? DEFAULTS.maxZoom, minZoom);
+  const defaultZoom = Math.min(Math.max(toNumber(view.defaultZoom) ?? minZoom, minZoom), maxZoom);
+  const zoomDelta = toNumber(view.zoomDelta) ?? DEFAULTS.zoomDelta;
+  const height = toNumber(view.height) ?? DEFAULTS.height;
+  const scale = toNumber(view.scale) ?? DEFAULTS.scale;
+  const unit = getString(view.unit) ?? DEFAULTS.unit;
+  const markers = [];
+  for (const entry of entries) {
+    const markerValue = entry.properties.marker;
+    if (!Array.isArray(markerValue)) continue;
+    for (const marker of markerValue) {
+      if (!isRecord(marker)) continue;
+      const coordinates = getString(marker.coordinates);
+      if (!coordinates) continue;
+      markers.push({
+        name: entry.title,
+        link: transformLink(slug, entry.slug, {
+          strategy: linkResolution,
+          allSlugs
         }),
-    });
+        mapName: getString(marker.mapName),
+        coordinates,
+        icon: getString(marker.icon),
+        colour: getString(marker.colour),
+        minZoom: toNumber(marker.minZoom)
+      });
+    }
+  }
+  const filteredMarkers = markers.filter((marker) => {
+    if (mapName) return !marker.mapName || marker.mapName === mapName;
+    return marker.mapName === void 0;
+  });
+  return /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(
+    "div",
+    {
+      class: "leaflet-map",
+      "data-src": imageSource,
+      "data-height": height,
+      "data-min-zoom": minZoom,
+      "data-max-zoom": maxZoom,
+      "data-default-zoom": defaultZoom,
+      "data-zoom-delta": zoomDelta,
+      "data-scale": scale,
+      "data-unit": unit,
+      "data-enable-copy-tool": pluginOptions.enableCopyTool ?? false,
+      children: filteredMarkers.map((marker) => /* @__PURE__ */ jsx(
+        "div",
+        {
+          class: "leaflet-marker",
+          "data-name": marker.name,
+          "data-link": marker.link,
+          "data-coordinates": marker.coordinates,
+          "data-icon": (marker.icon ?? DEFAULTS.markerIcon).replace("lucide-", ""),
+          "data-colour": marker.colour ?? DEFAULTS.markerColour,
+          "data-min-zoom": marker.minZoom ?? minZoom
+        }
+      ))
+    }
+  ) });
 };
 var leafletMapViewRegistration = {
-    id: "leaflet-map",
-    name: "Map",
-    icon: "map",
-    render: leafletMapRenderer,
-    css: leaflet_map_default,
-    afterDOMLoaded: leaflet_map_inline_default,
+  id: "leaflet-map",
+  name: "Map",
+  icon: "map",
+  render: leafletMapRenderer,
+  css: leaflet_map_default,
+  afterDOMLoaded: leaflet_map_inline_default
 };
 
 // src/index.ts
 function registerLeafletMap(userOpts) {
-    const opts = { ...defaultOptions, ...userOpts };
-    viewRegistry.register({
-        ...leafletMapViewRegistration,
-        options: opts,
-    });
+  const opts = { ...defaultOptions, ...userOpts };
+  viewRegistry.register({
+    ...leafletMapViewRegistration,
+    options: opts
+  });
 }
 function init(options) {
-    registerLeafletMap(options);
+  registerLeafletMap(options);
 }
 viewRegistry.register(leafletMapViewRegistration);
 
