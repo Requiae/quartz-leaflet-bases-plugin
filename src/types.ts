@@ -35,7 +35,7 @@ export const DEFAULTS = {
     scale: 1,
     unit: "",
     markerColour: "#21409a",
-    markerIcon: "circle-small",
+    markerIcon: "lucide:circle-small",
 } as const;
 
 export const CDN = {

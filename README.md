@@ -11,27 +11,25 @@ A live demo can be found [here](https://requiae.github.io/quartz-leaflet-map-plu
 
 ### Quartz v5
 
-Add the plugin to the `plugins` list in your `quartz.config.yaml`:
+Install using the quartz plugin API:
 
-```yaml
-plugins:
-    - source: github:quartz-community/external-quartz-leaflet-map-plugin
-      enabled: true
+```bash
+npx quartz plugin add github:Requiae/quartz-leaflet-bases-plugin
 ```
 
-This plugin also requires the [bases-page](https://github.com/quartz-community/bases-page) plugin.
-
-### Plugin Options
-
-You can pass options to the plugin via `quartz.config.yaml`:
+Or add the plugin to the `plugins` list in your `quartz.config.yaml`:
 
 ```yaml
 plugins:
-    - source: github:quartz-community/external-quartz-leaflet-map-plugin
+    - source: github:requiae/quartz-leaflet-bases-plugin
       enabled: true
       options:
           enableCopyTool: true
 ```
+
+> This plugin also requires the [bases-page](https://github.com/quartz-community/bases-page) plugin to function.
+
+#### Plugin Options
 
 | Option         | Type    | Default | Description                                                   |
 | -------------- | ------- | ------- | ------------------------------------------------------------- |
@@ -99,22 +97,26 @@ Adding a marker to a map is done by adding the following block of code to the fr
 ---
 marker:
     - coordinates: 100, 300
-      icon: lucide-tree-pine
+      icon: lucide-tree-pine #: Lucide icon
       colour: "#039c4b"
       minZoom: 1
+    - coordinates: 200, 300
+      icon: mdi:alien #: Material design icon using Iconify
     - coordinates: 5, 5
       mapName: mapName
       colour: "#bdf123"
 ---
 ```
 
-| Setting      |             | What it does                                                                                |
-| ------------ | ----------- | ------------------------------------------------------------------------------------------- |
-| Map name     | mapName     | If you want this marker to only show for a certain map, set this to the mapname of that map |
-| Coordinates  | coordinates | Where the marker is placed on the map. Format is "latitude, longitude"                      |
-| Icon         | icon        | Which icon to use for the marker. Can be any [lucide icon](https://lucide.dev/icons/).      |
-| Colour       | colour      | Which colour the marker will be                                                             |
-| Minimal zoom | minZoom     | How far zoomed in the map should be before the marker becomes visible                       |
+mdi:alien
+
+| Setting      |             | What it does                                                                                                                                                                                                                                        |
+| ------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Map name     | mapName     | If you want this marker to only show for a certain map, set this to the mapname of that map                                                                                                                                                         |
+| Coordinates  | coordinates | Where the marker is placed on the map. Format is "latitude, longitude"                                                                                                                                                                              |
+| Icon         | icon        | Which icon to use for the marker. Can be any [Lucide icon](https://lucide.dev/icons/) (prefixed by `lucide-` as obsidian does) or [Iconify icon](https://icon-sets.iconify.design/) (prefixed by `ICON-SET:` as is already included on their site). |
+| Colour       | colour      | Which colour the marker will be                                                                                                                                                                                                                     |
+| Minimal zoom | minZoom     | How far zoomed in the map should be before the marker becomes visible                                                                                                                                                                               |
 
 > Technically only 'coordinates' is required for the marker to be valid. However you'll likely end up using most of the other settings.
 

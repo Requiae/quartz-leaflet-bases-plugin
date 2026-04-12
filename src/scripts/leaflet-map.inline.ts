@@ -14,28 +14,10 @@ type Map = import("leaflet").Map;
 type Marker = import("leaflet").Marker;
 type ControlOptions = import("leaflet").ControlOptions;
 
-type SVGProps = Record<string, string | number | undefined> | { class: string[] };
-type IconNode = [tag: string, attrs: SVGProps][];
-type Icons = {
-    [key: string]: IconNode;
-};
-
-interface CreateIconsOptions {
-    icons?: Icons;
-    nameAttr?: string;
-    attrs?: SVGProps;
-    root?: Element | Document | DocumentFragment;
-    inTemplates?: boolean;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace lucide {
-    const createElement: (icon: IconNode) => HTMLElement;
-    const createIcons: ({ icons, nameAttr, attrs, root, inTemplates }?: CreateIconsOptions) => void;
-    const icons: Icons;
-    const Ruler: IconNode;
-    const MousePointer2: IconNode;
-    const Pin: IconNode;
+declare namespace iconify {
+    const loadIcon: (iconName: string) => Promise<FullIconifyIcon>;
+    type FullIconifyIcon = object;
 }
 
 type Coordinates = `${number}, ${number}`;
@@ -101,10 +83,11 @@ async function loadDependencies(): Promise<void> {
             "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
         ]);
     }
-    if (typeof lucide === "undefined") {
+    if (typeof iconify === "undefined") {
         await loadScript([
-            "https://cdn.jsdelivr.net/npm/lucide@0.575.0/dist/umd/lucide.min.js",
-            "https://unpkg.com/lucide@0.575.0",
+            "https://cdn.jsdelivr.net/npm/iconify-icon@3.0.2/dist/iconify-icon.min.js",
+            "https://unpkg.com/iconify-icon@3.0.2/dist/iconify-icon.min.js",
+            "https://code.iconify.design/iconify-icon/3.0.2/iconify-icon.min.js",
         ]);
     }
 }
@@ -139,28 +122,10 @@ function isLatLngTuple(value: unknown): value is LatLngTuple {
     );
 }
 
-function createIcons(element: Element): void {
-    lucide.createIcons({
-        attrs: {
-            class: ["leaflet-marker-inner-icon"],
-        },
-        root: element,
-    });
-}
-
 function distance(a: LatLng, b: LatLng): number {
     const square = (value: number) => value * value;
     return Math.sqrt(square(a.lat - b.lat) + square(a.lng - b.lng));
 }
-
-function getIcon(icon: string): HTMLElement {
-    const element = document.createElement("i");
-    element.setAttribute("data-lucide", icon);
-    lucide.createIcons({ root: element });
-    return element;
-}
-
-void getIcon;
 
 function isMarkerDataSet(dataset: unknown): dataset is MarkerDataSet {
     if (!isNonEmptyObject(dataset)) return false;
@@ -189,10 +154,22 @@ function getMarkerData(map: HTMLElement): MarkerDataSet[] {
     return data;
 }
 
+function prepareIconName(icon: string) {
+    // Obsidian build-in icons are prefixed with `lucide-` instead of `lucide:`
+    return icon.replace(/^lucide-/g, "lucide:");
+}
+
 function buildMarkerIcon(link: string, icon: string, colour: string) {
     return L.divIcon({
         className: "leaflet-marker-icon",
-        html: `<a href="${link}"><svg class="leaflet-marker-pin" style="fill:${colour}" viewBox="0 0 32 48"><path d="m32,19c0,12 -12,24 -16,29c-4,-5 -16,-16 -16,-29a16,19 0 0 1 32,0"/></svg><i data-lucide="${icon}"></i></a>`,
+        html: `
+            <a href="${link}">
+                <svg class="leaflet-marker-pin" style="fill:${colour}" viewBox="0 0 32 48">
+                    <path d="m32,19c0,12 -12,24 -16,29c-4,-5 -16,-16 -16,-29a16,19 0 0 1 32,0"/>
+                </svg>
+                <iconify-icon class="icon leaflet-marker-inner-icon" icon="${prepareIconName(icon)}" width="19px" height="19px"></iconify-icon>
+            </a>
+        `,
         iconSize: [32, 48],
         iconAnchor: [16, 48],
         tooltipAnchor: [17, -30],
@@ -200,13 +177,11 @@ function buildMarkerIcon(link: string, icon: string, colour: string) {
 }
 
 function addMarker(markerData: MarkerDataSet, mapItem: Map) {
-    function addMarkerWhenZoom(markerItem: Marker, mapItem: Map, markerZoom: number) {
+    function addMarkerWhenZoom(markerItem: Marker, markerZoom: number) {
         const tolerance = 0.00001;
         mapItem.getZoom() >= markerZoom - tolerance
             ? markerItem.addTo(mapItem)
             : markerItem.remove();
-        const markerElement = markerItem.getElement();
-        if (markerElement) createIcons(markerElement);
     }
 
     const { link, icon, colour, minZoom, coordinates, name } = markerData;
@@ -215,8 +190,8 @@ function addMarker(markerData: MarkerDataSet, mapItem: Map) {
     const markerZoom = parseFloat(minZoom);
     const markerItem = L.marker(parseCoordinates(coordinates), options).bindTooltip(name);
 
-    addMarkerWhenZoom(markerItem, mapItem, markerZoom);
-    mapItem.on("zoomend", () => addMarkerWhenZoom(markerItem, mapItem, markerZoom));
+    addMarkerWhenZoom(markerItem, markerZoom);
+    mapItem.on("zoomend", () => addMarkerWhenZoom(markerItem, markerZoom));
 }
 
 interface SubControlOptions {
@@ -293,7 +268,7 @@ class SubControl {
 class PanControl extends SubControl {
     override onAdded(): void {
         if (this.button) {
-            this.button.appendChild(lucide.createElement(lucide.MousePointer2));
+            this.button.innerHTML = `<iconify-icon icon="lucide:mouse-pointer-2" width="19px" height="19px"></iconify-icon>`;
             this.button.ariaLabel = "Pan";
         }
     }
@@ -322,7 +297,7 @@ class MeasureControl extends SubControl {
 
     override onAdded(): void {
         if (this.button) {
-            this.button.appendChild(lucide.createElement(lucide.Ruler));
+            this.button.innerHTML = `<iconify-icon icon="lucide:ruler" width="19px" height="19px"></iconify-icon>`;
             this.button.ariaLabel = "Measure";
         }
 
@@ -451,7 +426,7 @@ class CopyControl extends SubControl {
     private previewTooltip: Tooltip | undefined;
     override onAdded(): void {
         if (this.button) {
-            this.button.appendChild(lucide.createElement(lucide.Pin));
+            this.button.innerHTML = `<iconify-icon icon="lucide:pin" width="19px" height="19px"></iconify-icon>`;
             this.button.ariaLabel = "Copy";
         }
         this.previewTooltip = L.tooltip({ permanent: true, offset: [15, 0] }).setLatLng([0, 0]);
