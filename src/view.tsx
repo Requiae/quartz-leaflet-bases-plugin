@@ -109,7 +109,7 @@ const leafletMapRenderer: ViewRenderer = ({
                         data-name={marker.name}
                         data-link={marker.link}
                         data-coordinates={marker.coordinates}
-                        data-icon={(marker.icon ?? DEFAULTS.markerIcon).replace("lucide-", "")}
+                        data-icon={marker.icon ?? DEFAULTS.markerIcon}
                         data-colour={marker.colour ?? DEFAULTS.markerColour}
                         data-min-zoom={marker.minZoom ?? minZoom}
                     />
