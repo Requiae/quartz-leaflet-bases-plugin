@@ -167,7 +167,7 @@ function buildMarkerIcon(link: string, icon: string, colour: string) {
                 <svg class="leaflet-marker-pin" style="fill:${colour}" viewBox="0 0 32 48">
                     <path d="m32,19c0,12 -12,24 -16,29c-4,-5 -16,-16 -16,-29a16,19 0 0 1 32,0"/>
                 </svg>
-                <iconify-icon class="icon leaflet-marker-icon" icon="${prepareIconName(icon)}" width="19px" height="19px"></iconify-icon>
+                <iconify-icon class="icon leaflet-marker-inner-icon" icon="${prepareIconName(icon)}" width="19px" height="19px"></iconify-icon>
             </a>
         `,
         iconSize: [32, 48],
