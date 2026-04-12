@@ -171,8 +171,8 @@ function buildMarkerIcon(link: string, icon: string, colour: string) {
             </a>
         `,
         iconSize: [32, 48],
-        iconAnchor: [20, 48],
-        tooltipAnchor: [17, -130],
+        iconAnchor: [16, 48],
+        tooltipAnchor: [17, -30],
     });
 }
 
