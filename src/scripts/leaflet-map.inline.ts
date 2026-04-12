@@ -167,7 +167,7 @@ function buildMarkerIcon(link: string, icon: string, colour: string) {
                 <svg class="leaflet-marker-pin" style="fill:${colour}" viewBox="0 0 32 48">
                     <path d="m32,19c0,12 -12,24 -16,29c-4,-5 -16,-16 -16,-29a16,19 0 0 1 32,0"/>
                 </svg>
-                <iconify-icon class="icon leaflet-marker-icon" icon="${prepareIconName(icon)}"></iconify-icon>
+                <iconify-icon class="icon leaflet-marker-icon" icon="${prepareIconName(icon)}" width="19px" height="19px"></iconify-icon>
             </a>
         `,
         iconSize: [32, 48],
@@ -268,7 +268,7 @@ class SubControl {
 class PanControl extends SubControl {
     override onAdded(): void {
         if (this.button) {
-            this.button.innerHTML = `<iconify-icon icon="lucide:mouse-pointer-2"></iconify-icon>`;
+            this.button.innerHTML = `<iconify-icon icon="lucide:mouse-pointer-2" width="19px" height="19px"></iconify-icon>`;
             this.button.ariaLabel = "Pan";
         }
     }
@@ -297,7 +297,7 @@ class MeasureControl extends SubControl {
 
     override onAdded(): void {
         if (this.button) {
-            this.button.innerHTML = `<iconify-icon icon="lucide:ruler"></iconify-icon>`;
+            this.button.innerHTML = `<iconify-icon icon="lucide:ruler" width="19px" height="19px"></iconify-icon>`;
             this.button.ariaLabel = "Measure";
         }
 
@@ -426,7 +426,7 @@ class CopyControl extends SubControl {
     private previewTooltip: Tooltip | undefined;
     override onAdded(): void {
         if (this.button) {
-            this.button.innerHTML = `<iconify-icon icon="lucide:pin"></iconify-icon>`;
+            this.button.innerHTML = `<iconify-icon icon="lucide:pin" width="19px" height="19px"></iconify-icon>`;
             this.button.ariaLabel = "Copy";
         }
         this.previewTooltip = L.tooltip({ permanent: true, offset: [15, 0] }).setLatLng([0, 0]);

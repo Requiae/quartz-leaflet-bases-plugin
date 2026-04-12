@@ -10,14 +10,10 @@
 }
 
 .leaflet-control-button {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     background: var(--lightgray);
-}
-.leaflet-control-button iconify-icon svg {
-    width: 20px;
-    height: 20px;
 }
 
 .leaflet-marker-icon a,
