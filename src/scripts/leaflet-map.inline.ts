@@ -539,19 +539,22 @@ function getControlContainerClass(): ControlContainerClass {
 
 function isMapDataSet(dataset: unknown): dataset is MapDataSet {
     if (!isNonEmptyObject(dataset)) return false;
-    if (
-        !dataset["src"] ||
-        !dataset["height"] ||
-        !dataset["minZoom"] ||
-        !dataset["maxZoom"] ||
-        !dataset["defaultZoom"] ||
-        !dataset["zoomDelta"] ||
-        !dataset["scale"] ||
-        !dataset["unit"]
-    ) {
-        return false;
-    }
-    return true;
+    // `unit` legitimately defaults to "" (no unit configured). A truthiness
+    // check rejects that valid empty string and causes initialiseMap() to
+    // silently bail out before ever calling L.map(), so the map never
+    // renders whenever no `unit` is set. Check presence (a string), not
+    // truthiness.
+    const requiredFields = [
+        "src",
+        "height",
+        "minZoom",
+        "maxZoom",
+        "defaultZoom",
+        "zoomDelta",
+        "scale",
+        "unit",
+    ] as const;
+    return requiredFields.every((field) => typeof dataset[field] === "string");
 }
 
 async function getImageMeta(url: string): Promise<HTMLImageElement> {
